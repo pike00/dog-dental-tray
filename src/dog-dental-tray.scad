@@ -16,14 +16,20 @@ floor_thk    = 2;    // solid material below the valley, mm
 grip         = -3;   // wall top vs. tube centerline: + = hugs/secure, - = easy lift, mm
 
 /* ===== Finger-toothbrush drying pegs (4-pack silicone caps) ===== */
-// The cone is wider than the brush opening, so each brush rim catches partway
-// up the taper and stays propped above the floor -> air inside, drips run off.
-peg_count_x  = 2;
-peg_count_y  = 2;
-peg_base_dia = 22;   // cone base dia, mm  (set a few mm > brush inner dia)
+// Each peg is a set of radial FINS that share a conical envelope coming to a
+// point. The fins are wider (across) than the brush opening, so the brush rim
+// catches partway up and stays propped above the floor. Crucially the open
+// channels between fins mean the brush interior never seals: air flows in and
+// water drains straight down and out -> dries inside and out. A solid cone
+// would seal a closed pocket at the rim and trap water; fins fix that.
+peg_count_x  = 4;    // brushes in a row...
+peg_count_y  = 1;    // ...a single row running longways beside the cradle
+peg_base_dia = 22;   // fin envelope base dia, mm  (set a few mm > brush inner dia)
 peg_tip_dia  = 2;    // blunt tip dia, mm  (lower toward ~1 for a sharper point)
-peg_height   = 30;   // cone height, mm
+peg_height   = 30;   // peg height, mm
 peg_pitch    = 34;   // peg center-to-center spacing, mm
+peg_fins     = 4;    // radial blades (even number); gaps between = drain/air channels
+fin_thk      = 3;    // blade thickness, mm
 
 /* ===== Tray shell ===== */
 wall     = 3;   // cradle / rim wall thickness, mm
@@ -79,7 +85,20 @@ module cradle() {
     }
 }
 
-module peg() { cylinder(h=peg_height, d1=peg_base_dia, d2=peg_tip_dia); }
+// Finned drying peg: the conical envelope (point on top) intersected with a set
+// of crossing slabs, leaving `peg_fins` blades with open channels between them.
+module peg() {
+    slabs = max(1, floor(peg_fins / 2));   // each diametric slab = 2 fins
+    intersection() {
+        cylinder(h=peg_height, d1=peg_base_dia, d2=peg_tip_dia);
+        union() {
+            for (i = [0 : slabs - 1])
+                rotate([0, 0, i * 180 / slabs])
+                    translate([-peg_base_dia, -fin_thk/2, -0.1])
+                        cube([2 * peg_base_dia, fin_thk, peg_height + 0.2]);
+        }
+    }
+}
 
 module pegs() {
     translate([0, peg_cy, base_t - 0.01])
