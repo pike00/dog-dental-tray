@@ -1,0 +1,13 @@
+*.stl   -text -diff
+*.3mf   -text -diff
+*.step  -text -diff
+*.stp   -text -diff
+*.png   -text -diff
+*.scad  text
+
+# Git LFS upgrade path (git-lfs not installed on this host yet). Once
+# `git lfs install` has run, replace the mesh lines above with:
+#   *.stl  filter=lfs diff=lfs merge=lfs -text lockable
+#   *.3mf  filter=lfs diff=lfs merge=lfs -text lockable
+#   *.step filter=lfs diff=lfs merge=lfs -text lockable
+# then: git lfs migrate import --include="*.stl,*.3mf,*.step"

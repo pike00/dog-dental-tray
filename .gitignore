@@ -1,0 +1,7 @@
+gcode/
+*.gcode
+*.bgcode
+*.scad.bak
+.*.scad.swp
+.DS_Store
+*~
