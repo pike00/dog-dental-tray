@@ -1,3 +1,16 @@
+---
+title: "Dog dental station tray"
+description: "A small counter tray for the dogs' dental routine: a rounded cradle for a Virbac C.E.T. toothpaste tube plus four finned drying pegs for silicone finger toothbrushes."
+date: 2026-05-31
+version: v2
+tags: [pet, organization]
+material: PETG / PLA
+print: { layer_height: 0.2mm, infill: 15%, supports: false }
+license: CC-BY-NC-4.0
+showcase: false
+source: private
+---
+
 # Dog dental station tray
 
 A small counter tray that holds two things for the dogs' dental routine:
